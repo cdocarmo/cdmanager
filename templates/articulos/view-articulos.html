@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+
+{% block content %}
+	<section id="titulo-view-art">
+		<h2>Vista Articulos</h2>
+		<div class="form-search" >
+			<input id="text-art" type="text" placeholder="Buscar..." class="input-medium search-query">
+			
+
+		</div>
+	</section>
+	<section id="articulos">
+	</section>
+
+{% endblock %}
+
+{% block js %}
+	
+	
+	<script type="text/javascript">
+
+		$(document).on("ready", inicio);
+		function inicio ()
+		{
+			enviar_busqueda();
+			$("#buscar-art").on("click", cambiarActive);
+			$( '#text-art' ).keypress( function(event) 
+			{
+				if ( event.which == 13 ) 
+				{
+		 			enviar_busqueda();
+				}
+			});	
+		};
+		function enviar_busqueda()
+		{
+			var q = $( '#text-art' ).val();
+			q = q.replace(" ", "-")
+			$('#articulos').html('&nbsp;').load('{% url 'new-search' %}?q=' + q);
+		};
+	</script>
+
+	
+{% endblock %}	

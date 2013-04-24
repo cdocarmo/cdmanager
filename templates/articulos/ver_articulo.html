@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ empresa }}{% endblock %}
+
+
+
+{% block content %}
+	<div id="company_data">
+		<div id="company">
+			<div class="ficha-empresa" id="data">
+			
+			    <h3>{{ articulo.nombre }}</h3>
+	
+
+			    <h3>Contacto</h3>
+	    		<p class="items"><strong>{% trans "Domicilio" %}: </strong> {{ articulo.familia.nombre }}</p>
+				<p class="items"><strong>{% trans "Telefono" %}: </strong> {{ articulo.subfamilia.nombre }}</p>
+				<p class="items"><strong>{% trans "Celular" %}: </strong> {{ articulo.precio }}</p>
+
+				
+					<p><a href="{% url "modificar-articulo" articulo.slug %}" id="modificar-servicio">Modificar</a></p>
+		
+			</div>
+	
+		</div>
+	</div>	
+
+
+
+
+{% endblock %}

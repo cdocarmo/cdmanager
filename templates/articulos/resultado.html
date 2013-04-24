@@ -1,0 +1,27 @@
+
+
+
+{% if articulos|length %} 
+	{% for art in articulos %}
+			<ul class="resultado">
+				<li id="resultado-nombre">
+					<a data-id="{{ art.codigo }}">
+					<h4 class="resultado-dato">
+						<a  href="{{ art.slug }}">
+							{{ art.nombre }}
+						</a>
+					</h4>
+					</a>
+				</li>
+			</ul>
+	{% endfor %}
+
+{% else %}
+	<div class="note">
+		Lo sentimos, tu b&uacute;squeda no obtuvo resultados.
+	</div>
+{% endif %}   	
+
+  {% load render_paginator %}
+  {% render_paginator 2 3 %}
+

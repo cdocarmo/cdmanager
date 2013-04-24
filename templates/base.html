@@ -1,0 +1,60 @@
+<!doctype html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta charset=utf-8>
+		<link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css" type="text/css" media="screen" />
+	    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-responsive.css" type="text/css" media="screen">
+	    <link rel="stylesheet" href="{{ STATIC_URL }}css/styles.css" type="text/css" media="screen">
+	    <link rel="stylesheet" href="{{ STATIC_URL }}css/normalize.min.css">
+       	{% block css %}
+		{% endblock %}
+        <title>{% block title %}{% endblock %}</title>
+ 
+        <!--[if lt IE 9]> HTML5Shiv
+            <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+ 
+    </head>
+    <body>
+		<div class="navbar">
+		  <div class="navbar-inner">
+		    <a class="brand" href="#">CD Manager</a>
+		    <ul class="nav" id="barnav">
+		      <li class="" id="Home"><a href="#">Home</a></li>
+		      <li class="" id="Art"><a href="/articulos/">Articulos</a></li>
+		      <li><a href="#">Link</a></li>
+		    </ul>
+		  </div>
+		</div>    	
+		<section id="central-content">
+			{% block content %}
+			{% endblock %}
+		</section>
+
+	    <footer>
+	    	<div id="username">
+	        <ul><span id="user-name">Usuario.: {{ user.username }}</span> </ul>
+	        </div>
+	        <ul>
+	            <li><a href="http://www.cdsoft.com.uy/">CD Soft</a></li>
+	            <li class="space">|</li>
+	            <li><a href="/informacion/">Informaci&oacuten</a></li>
+	            <li class="space">|</li>
+	            <li><a href="/contacto/">Cont&aacutectenos</a></li>
+	        </ul>
+	        <p>2012 &copy; www.cdsoft.com.uy | Powered by <a href="http://www.python.org/">Python</a>
+	             - <a href="https://www.djangoproject.com/">Django</a></p>
+	    </footer>
+	 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+ 		<script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+ 		<script type="text/javascript" src="{{ STATIC_URL }}js/utilita.js"></script> 		
+		<script src="{{ STATIC_URL }}js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+		{% block js %}
+		{% endblock %}
+    </body>
+</html>
