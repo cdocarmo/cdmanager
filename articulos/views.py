@@ -6,6 +6,9 @@ from articulos.models import Articulo
 from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import json
+from django.core import serializers
+import string
 
 def view(request):
     template = 'articulos/view-articulos.html'
@@ -13,7 +16,36 @@ def view(request):
     return render_to_response( template, data, 
                                context_instance = RequestContext( request ), )
 
+def cargo_productos(request):
+    articulos = Articulo.objects.filter().order_by("nombre")
+    """
+    q = request.GET.get( 'Id' )
+    q = q.replace("-", " ")
+    if q is not None:  
+        articulos = articulos.filter(
+                                  Q( nombre__contains = q )
+                                  ).order_by( 'nombre' )
+    """
+    data = serializers.serialize("json", articulos)
+    return HttpResponse(data, mimetype="application/json; charset=uft8")
 
+
+
+
+def guardo_producto(request):
+
+    coll = request.POST
+    #q = request.GET.get('fields')
+    print coll
+    """
+    art = Articulo(
+    slug = formulario.cleaned_data['fecha'],
+    nombre = formulario.cleaned_data['nombre'],
+    familia = formulario.cleaned_data['detalle'],
+    subfamilia = formulario.cleaned_data['aquien'],
+    precio = request.user.get_profile())
+    art.save()    
+    """
 def result_search(request):
     articulos = Articulo.objects.all().order_by('nombre')
     if request.is_ajax():

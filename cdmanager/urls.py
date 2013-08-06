@@ -7,6 +7,9 @@ admin.autodiscover()
 urlpatterns = patterns('',
 	url(r'^$', include('dashboard.urls'),),
 	url(r'^articulos/', include('articulos.urls'),),
+    url(r'^clientes/', include('clientes.urls'),),
+    url(r'^vendedores/', include('vendedores.urls'),),
+    url(r'^visitas/', include('rutas.urls'),),
 	
     # Examples:
     # url(r'^$', 'cdmanager.views.home', name='home'),
