@@ -1,0 +1,82 @@
+<!doctype html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css" type="text/css" media="screen" />
+	    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-responsive.css" type="text/css" media="screen">
+	    <link rel="stylesheet" href="{{ STATIC_URL }}css/styles.css" type="text/css" media="screen">
+	    <link rel="stylesheet" href="{{ STATIC_URL }}css/normalize.min.css">
+		<link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-datetimepicker.min.css">
+		 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+       	{% block css %}
+		{% endblock %}
+        <title>{% block title %}{% endblock %}</title>
+ 
+        <!--[if lt IE 9]> HTML5Shiv
+            <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+ 
+    </head>
+    <body>
+    	<nav class="navbar navbar-inverse" role="navigation">
+  			<div class="container-fluid">
+	    		<a class="navbar-brand" href="/">CD Manager</a>
+		    	<ul class="nav navbar-nav">
+					<li class="" id="Home"><a href="/">Home</a></li>
+					<li class="" id="Art"><a href="/articulos/">Articulos</a></li>
+					<li class="" id="Loca"><a href="/locacion/">GPS</a></li>
+					<li><a href="#">Link</a></li>    		
+				</ul>
+				{% if user.is_authenticated %}
+					<ul class="nav navbar-nav navbar-right">
+						
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.username }}</a>
+							<ul class="dropdown-menu">
+								<li><a href="#">Mis Datos</a></li>
+								<li class="divider"></li>
+								<li><a href="/usuarios/change-password/">Cambiar Contraseña</a></li>
+							</ul>
+						</li>
+						<li><a href="/logout">Salir</a></li>
+					</ul>
+				{% endif %}			
+
+			
+			</div>
+		</nav>
+	
+		{% block content %}
+		{% endblock %}
+	
+	    <footer>
+	    	<div id="username">
+	        <ul><span id="user-name">Usuario.: {{ user.username }}</span> </ul>
+	        </div>
+	        <ul>
+	            <li><a href="http://www.cdsoft.com.uy/">CD Soft</a></li>
+	            <li class="space">|</li>
+	            <li><a href="/informacion/">Informaci&oacuten</a></li>
+	            <li class="space">|</li>
+	            <li><a href="/contacto/">Cont&aacutectenos</a></li>
+	        </ul>
+	        <p>2012 &copy; www.cdsoft.com.uy | Powered by <a href="http://www.python.org/">Python</a>
+	             - <a href="https://www.djangoproject.com/">Django</a></p>
+	    </footer>
+	 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+ 		<script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+ 		<script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-datepicker.js"></script>
+ 		<script type="text/javascript" src="{{ STATIC_URL }}js/utilita.js"></script> 		
+		<script src="{{ STATIC_URL }}js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+		<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+	    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&amp;language=es"></script>
+		
+		{% block js %}
+		{% endblock %}
+    </body>
+</html>

@@ -5,12 +5,19 @@ class VendedorAdmin(admin.ModelAdmin):
 	#prepopulated_fields = {"slug": ("nombre", )}
 	fieldsets = (
 			(None, {
-					'fields': ('codigo', 'nombre', 'password')
+					'fields': ('codigo', 'nombre', 'password', 'ventxdia')
 				}),
 		)
 	list_display = ['codigo', 'nombre']
 	search_fields = ('nombre',)
 	ordering = ('nombre', )
 
-admin.site.register(Vendedor, VendedorAdmin)
 
+class VendedorClienteAdmin(admin.ModelAdmin):
+	#prepopulated_fields = {"slug": ("nombre", )}
+
+	pass
+
+
+admin.site.register(Vendedor, VendedorAdmin)
+admin.site.register(VendedorCliente, VendedorClienteAdmin)

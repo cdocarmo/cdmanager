@@ -66,10 +66,12 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'cdmanager.django-crossdomainxhr-middleware.XsSharing',
+    
+    #'cdmanager.django-crossdomainxhr-middleware.XsSharing',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
+
 
 ROOT_URLCONF = 'cdmanager.urls'
 
@@ -103,7 +105,10 @@ INSTALLED_APPS = (
     'localidades',
     'vendedores',
     'rutas',
-)
+    'movimientos',
+    'panel_control',
+    'locacion',
+    'usuarios',)
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

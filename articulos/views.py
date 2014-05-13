@@ -2,14 +2,18 @@
 
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
-from articulos.models import Articulo
+from articulos.models import Articulo, Combo, ComboProducto
 from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json
 from django.core import serializers
 import string
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 
+
+@login_required(login_url='/login')
 def view(request):
     template = 'articulos/view-articulos.html'
     data = {}
@@ -17,7 +21,7 @@ def view(request):
                                context_instance = RequestContext( request ), )
 
 def cargo_productos(request):
-    articulos = Articulo.objects.filter().order_by("nombre")
+    articulos = Articulo.objects.all().order_by("nombre")
     """
     q = request.GET.get( 'Id' )
     q = q.replace("-", " ")
@@ -26,8 +30,30 @@ def cargo_productos(request):
                                   Q( nombre__contains = q )
                                   ).order_by( 'nombre' )
     """
-    data = serializers.serialize("json", articulos)
+    data = serializers.serialize("json", articulos) #.encode('zlib').encode('base64')
+
+    #print json.loads(data.decode('base64').decode('zlib'))
     return HttpResponse(data, mimetype="application/json; charset=uft8")
+
+
+def cargo_combos(request):
+    combos = Combo.objects.all()
+    data = list()
+    for xCombo in combos:
+        det = list()
+        xSubCombo = ComboProducto.objects.get(combo=xCombo.id)
+        print xSubCombo
+        for xS in xSubCombo.producto.all():
+            det.append({ 'prod': xS.codigo, 'nombre': xS.nombre })
+        print xCombo.producto.codigo
+        print det
+        data.append({ 'id': xCombo.producto.codigo, 'cantidad': str(xCombo.cantidad),
+         'lineas': det})
+    return HttpResponse(
+    json.dumps({ 'xCol': data }),
+    content_type="application/json; charset=uft8"
+    ) 
+
 
 
 
@@ -46,6 +72,7 @@ def guardo_producto(request):
     precio = request.user.get_profile())
     art.save()    
     """
+    
 def result_search(request):
     articulos = Articulo.objects.all().order_by('nombre')
     if request.is_ajax():
@@ -74,6 +101,8 @@ def result_search(request):
         return render_to_response( template, data, 
                                  context_instance = RequestContext( request ) )
 
+
+@login_required(login_url='/login')
 def articulo_detalle(request, articulo_slug):
        
     articulo = get_object_or_404(Articulo, slug = articulo_slug)
@@ -106,4 +135,33 @@ def modificar_articulo(request, slug_Articulo):
         context_instance=RequestContext(request),
     )
 
+
+def stock_disponible(request, xArt):
+    articulo = Articulo.objects.get(codigo = xArt)
+    if articulo == None:
+        return HttpResponse(return_msg('Producto no encontrada', False))
+
+    resultado = json.dumps({'id': articulo.codigo , 'stock': str(articulo.stock) })
+
+    return HttpResponse(resultado)
+
+   
+    data = serializers.serialize("json", articulo)
+    return HttpResponse(data, mimetype="application/json; charset=uft8")    
+
+
+@csrf_exempt
+def disponible(request):
+    data = str(request.POST['json'])
+    xArt = json.loads(data)
+    articulo = Articulo.objects.get(codigo = xArt['xProd'])
+    if articulo == None:
+        return HttpResponse(return_msg('Producto no encontrada', False))
+    resultado = json.dumps({'id': articulo.codigo , 'stock': str(articulo.stock) })
+
+    return HttpResponse(resultado)
+
+   
+    data = serializers.serialize("json", articulo)
+    return HttpResponse(data, mimetype="application/json; charset=uft8")    
 

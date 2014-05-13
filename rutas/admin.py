@@ -1,7 +1,14 @@
 from django.contrib import admin
 from models import *
 
+
+class Visitas(admin.TabularInline):
+	model = VisitaCliente
+	extra = 0
+
+
 class VisitaAdmin(admin.ModelAdmin):
+	inlines = [Visitas]
 	#prepopulated_fields = {"slug": ("nombre", )}
 	fieldsets = (
 			(None, {

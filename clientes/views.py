@@ -9,6 +9,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json
 from django.core import serializers
 import string
+from django.views.decorators.csrf import csrf_exempt
+from localidades.models import Localidad
+
 
 def view(request):
     template = 'articulos/view-articulos.html'
@@ -30,13 +33,27 @@ def cargo_clientes(request):
     return HttpResponse(data, mimetype="application/json; charset=uft8")
 
 
+def return_msg(mensagem='', success=True):
+    resultado = json.dumps( {'erro': mensagem , 'success': str(success)})
+    return resultado;
 
-
+@csrf_exempt
 def guardo_cliente(request):
 
     coll = request.POST
     #q = request.GET.get('fields')
+
+    xCli = Cliente(
+        numero = 22,
+        nombre = "models.CharField(max_length=150)",
+        razon = "models.CharField(max_length=150)",
+        direccion = "models.CharField(max_length=250)",
+        telefono = "models.CharField(max_length=50)",
+        localidad=Localidad.objects.get(id=1))
+    xCli.save()
+
     print coll
+    return HttpResponse(return_msg('ok', True))
     """
     art = Articulo(
     slug = formulario.cleaned_data['fecha'],
@@ -46,6 +63,7 @@ def guardo_cliente(request):
     precio = request.user.get_profile())
     art.save()    
     """
+"""
 def result_search(request):
     articulos = Articulo.objects.all().order_by('nombre')
     if request.is_ajax():
@@ -73,7 +91,7 @@ def result_search(request):
         }
         return render_to_response( template, data, 
                                  context_instance = RequestContext( request ) )
-
+"""
 def cliente_detalle(request, articulo_slug):
        
     articulo = get_object_or_404(Articulo, slug = articulo_slug)

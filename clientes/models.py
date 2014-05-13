@@ -1,6 +1,7 @@
 from django.db import models
 from localidades.models  import Localidad
 from django.utils.translation import ugettext as _
+from articulos.models import Articulo
 # Create your models here.
 class Cliente(models.Model):
 	"""docstring for Cliente"""
@@ -18,3 +19,10 @@ class Cliente(models.Model):
 
 	def __unicode__(self):
 	    return _("%s") % (self.razon)
+
+
+class PrecioCliente(models.Model):
+	cliente = models.ForeignKey(Cliente)
+	producto = models.ForeignKey(Articulo)
+	precio = models.DecimalField(max_digits=13, decimal_places=3)
+

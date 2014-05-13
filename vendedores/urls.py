@@ -1,12 +1,5 @@
-from django.conf.urls.defaults import patterns, include, url
-
+from django.conf.urls import patterns, url
 urlpatterns = patterns('',
-	url(r'^guardo-productos/$', 'articulos.views.guardo_producto', name='guardo-productos'),
-	url(r'^cargo-productos/$', 'articulos.views.cargo_productos', name='cargo-productos'),
-    url(r'^$', 'articulos.views.view', name='view-articulo'),
-    url(r'^search/$', 'articulos.views.result_search', name = 'new-search'),
-    url(r'^(?P<articulo_slug>[\w-]+)/$', \
-        'articulos.views.articulo_detalle', name='articulo-detalle'),
-    url(r'^([-\w]+)/modificar/$', 'articulos.views.modificar_articulo', name="modificar-articulo"),
-
+	url(r'^cargo-vendedores/$', 'vendedores.views.cargo_vendedores', name='cargo-vendedores'),
+	url(r'^cargo-diferencia-pedido/([a-zA-Z0-9]+)/$', 'vendedores.views.diferenacia_pedido', name='diferenacia-pedido'),
 )

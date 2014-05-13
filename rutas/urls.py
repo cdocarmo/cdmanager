@@ -1,12 +1,6 @@
-from django.conf.urls.defaults import patterns, include, url
-
+from django.conf.urls import patterns, url
 urlpatterns = patterns('',
-	url(r'^guardo-productos/$', 'articulos.views.guardo_producto', name='guardo-productos'),
-	url(r'^cargo-productos/$', 'articulos.views.cargo_productos', name='cargo-productos'),
-    url(r'^$', 'articulos.views.view', name='view-articulo'),
-    url(r'^search/$', 'articulos.views.result_search', name = 'new-search'),
-    url(r'^(?P<articulo_slug>[\w-]+)/$', \
-        'articulos.views.articulo_detalle', name='articulo-detalle'),
-    url(r'^([-\w]+)/modificar/$', 'articulos.views.modificar_articulo', name="modificar-articulo"),
+	url(r'^ruta_dia/([a-zA-Z0-9]+)/(\d{1})/(\d{1})/$', 'rutas.views.ruta_dia', name='ruta-dia'),
+	url(r'^ruta_clientes/([a-zA-Z0-9]+)/$', 'rutas.views.ruta_clientes', name='ruta-clientes'),
 
 )

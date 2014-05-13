@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+
+{% block content %}
+	<section id="titulo-view-art">
+		<h2>Movimientos Realizados</h2>
+		<div class="form-search" >
+			<input id="text-movto" type="text" placeholder="Buscar..." class="input-medium search-query">
+		</div>
+		<div class="container">
+
+	        <div class='col-md-2'><label >Fecha</label>
+		            <div class='input-group date' id='datetimepicker1'>
+
+		                <input data-format="dd/MM/yyyy" type='text' class="form-control" />
+		                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+		                </span>
+		            </div>
+				</div>
+		</div>
+
+
+	</section>
+	<section id="movtos">
+	</section>
+
+{% endblock %}
+{% block js %}
+	
+	
+	<script type="text/javascript">
+
+		$(document).on("ready", inicio);
+		function inicio ()
+		{
+			enviar_busqueda();
+			$("#buscar-art").on("click", cambiarActive);
+			$( '#text-art' ).keypress( function(event) 
+			{
+				if ( event.which == 13 ) 
+				{
+		 			enviar_busqueda();
+				}
+			});	
+			  $(function() {
+			    $('#datetimepicker1').datetimepicker({
+			     
+					pickTime: false
+
+			    });
+			  });			
+
+
+		};
+		function enviar_busqueda()
+		{
+			var q = $( '#text-movto' ).val();
+			q = q.replace(" ", "-")
+			$('#movtos').load('/movtos/cargo-movtos/');
+		};
+	</script>
+
+	
+{% endblock %}	

@@ -6,10 +6,10 @@ class ArticuloAdmin(admin.ModelAdmin):
 	fieldsets = (
 			(None, {
 					'fields': (('nombre', 'slug'), ('familia', 'subfamilia'),
-						('costo', 'utilidad', 'precio'), 'observaciones')
+						('costo', 'utilidad', 'precio'), 'stock', 'observaciones')
 				}),
 		)
-	list_display = ['codigo', 'nombre', 'familia', 'subfamilia', 'precio']
+	list_display = ['codigo', 'nombre', 'familia', 'subfamilia', 'precio', 'stock']
 	list_filter = ['familia', 'subfamilia']
 	search_fields = ('nombre', )
 	ordering = ('nombre', )
@@ -21,3 +21,5 @@ class ArticuloAdmin(admin.ModelAdmin):
 admin.site.register(Articulo, ArticuloAdmin)
 admin.site.register(Familia)
 admin.site.register(SubFamilia)
+admin.site.register(Combo)
+admin.site.register(ComboProducto)

@@ -1,0 +1,64 @@
+
+{% if movtos|length %}
+	<table class="table table-striped">
+
+		<thead>
+			<tr>
+				<th>Id.</th>
+				<th>Fecha</th>
+				<th>Cliente</th>
+				<th>Tipo</th>
+				<th>Vendedor</th>
+    			<th>Total</th>
+			</tr>
+		</thead>
+		<tbody id="listado-todos-movtos">
+			{% for mov in movtos %}
+				<tr class="success">
+					<td class="id">{{ mov.id }}</td>
+					<td class="nombres">{{ mov.fecha }}</td>
+					<td class="nombres">{{ mov.cliente }}</td>
+					<td class="nombres">{{ mov.tipo }}</td>
+					<td class="nombres">{{ mov.vendedor }}</td>
+					<td class="nombres">{{ mov.totalGral }}</td>
+					
+
+				</tr>
+				
+
+					<thead>
+						<tr>
+							<th>Linea.</th>
+							<th>Producto</th>
+							<th>Precio</th>
+							<th>Cantidad</th>
+							<th>Dto</th>
+			    			<th>Total</th>
+						</tr>
+					</thead>
+					<tbody id="listado-todos-lineas">				
+						{% for lin in mov.mis_lineas.all %}
+							<tr class="fila-lineas">
+								<td class="id">{{ lin.producto.codigo }}</td>
+								<td class="nombres">{{ lin.producto }}</td>
+								<td class="nombres">{{ lin.precio }}</td>
+								<td class="nombres">{{ lin.cantidad }}</td>
+								<td class="nombres">{{ lin.dto }}</td>
+								<td class="nombres">{{ lin.total }}</td>
+								
+
+							</tr>
+							
+						{% endfor %}
+					</tbody>
+									
+			{% endfor %}			
+		</tbody>
+	</table>
+
+{% else %}
+	<div class="note">
+		Por el Momento no Clientes pendientes.
+	</div>			
+{% endif %}	
+

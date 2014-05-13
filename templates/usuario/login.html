@@ -1,0 +1,34 @@
+{% extends 'base_sbar.html' %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+
+  <form method="post" action="" class="login">{% csrf_token %}
+    <p>
+      <label for="login">Usuario:</label>
+      {{formulario.username}}
+    </p>
+
+    <p>
+      <label for="password">Password:</label>
+      {{formulario.password1}}
+    </p>
+
+    <div id="errores">
+        {% if error %}                
+           <p>{{ error }} </p>
+        {% endif %}
+    </div>
+
+    <p class="login-submit">
+
+      <button type="submit" class="login-button">Login</button>
+    </p>
+
+    <p class="forgot-password"><a href="../usuarios/forgot-password/">Haga click aquí si olvidó su contraseña?</a></p>
+  </form>
+
+ 
+{% endblock %}
+

@@ -13,6 +13,7 @@ class Familia(models.Model):
 		return self.nombre
 
 class SubFamilia(models.Model):
+	codigo = models.IntegerField()
 	nombre = models.CharField(max_length=200)
 	familia = models.ForeignKey(Familia)
 
@@ -20,7 +21,7 @@ class SubFamilia(models.Model):
 		return self.nombre
 
 class Articulo(models.Model):
-	codigo = models.AutoField(primary_key=True,blank=True)
+	codigo = models.AutoField(primary_key=True, blank=True)
 	nombre = models.CharField(max_length=200)
 	slug = models.CharField(max_length=200)
 	familia = models.ForeignKey(Familia)
@@ -28,12 +29,30 @@ class Articulo(models.Model):
 	costo = models.DecimalField(max_digits=10, decimal_places=3)
 	utilidad = models.DecimalField(max_digits=10, decimal_places=3)
 	precio = models.DecimalField(max_digits=10, decimal_places=3)
+	stock = models.DecimalField(max_digits=10, decimal_places=3)
 	observaciones = models.TextField()
-
+	new_cod = models.IntegerField()
+	es_combo = models.BooleanField(default=False)
 
 	def __unicode__(self):
 		return self.nombre
 		
+class Combo(models.Model):
+	producto = models.ForeignKey(Articulo)
+	cantidad = models.DecimalField(max_digits=12, decimal_places=3)
+
+	def __unicode__(self):
+		return self.producto.nombre
+
+class ComboProducto(models.Model):
+	combo = models.ForeignKey(Combo)
+	producto = models.ManyToManyField(Articulo)
+
+	def __unicode__(self):
+		return self.combo.producto.nombre
+
+
+    
 
 
 class ImagenArticulo(models.Model):
