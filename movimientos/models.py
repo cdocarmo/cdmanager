@@ -17,7 +17,7 @@ class Movimiento(models.Model):
 	echo = models.BooleanField(default=False)
 	id_pedido = models.IntegerField()
 	mal_estado = models.BooleanField(default=False)
-	vence = models.DateTimeField(auto_now_add=True, verbose_name=u'fecha de creaci\xf3n')
+	vence = models.DateField()
 
 	def __unicode__(self):
 		return _("%s") % ("")

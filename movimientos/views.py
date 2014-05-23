@@ -11,7 +11,7 @@ import string
 from django.views.decorators.csrf import csrf_exempt
 from clientes.models import Cliente
 from localidades.models import Localidad
-from movimientos.models import Movimiento, Lineas
+from movimientos.models import Movimiento, Lineas, Documentos
 from vendedores.models import Vendedor
 from articulos.models import Articulo
 from decimal import Decimal
@@ -61,7 +61,7 @@ def guardo_pedido(request):
         cliente=Cliente.objects.get(numero=xMovto['cliente']), 
         id_pedido=int(xMovto['Id']), fin=True, 
         fecha__year=xFecha.year, fecha__month=xFecha.month, fecha__day=xFecha.day)
-    print xMovto['malestado']
+    #print xMovto['vence']
     if not xM:
         xMov = Movimiento(
             cliente = Cliente.objects.get(numero=xMovto['cliente']),
@@ -72,7 +72,8 @@ def guardo_pedido(request):
             es_pedido=True,
             id_pedido=xMovto['Id'],
             echo=False,
-            mal_estado=xMovto['malestado'])
+            mal_estado=xMovto['malestado'],
+            vence=xMovto['vence'])
         xMov.save()
         
         for xL in xLineas:
@@ -95,3 +96,14 @@ def guardo_pedido(request):
 def return_msg(mensagem='', success=True):
     resultado = json.dumps( {'erro': mensagem , 'success': str(success)})
     return resultado;
+
+@csrf_exempt
+def cargo_estcta(request):
+    xD = json.loads(str(request.POST['json']))
+    xMov = Documentos.objects.filter(cliente=xD['Cli'], \
+        vendedor=Vendedor.objects.get(codigo=xD['Ven'])).order_by("fecha")
+
+    data = serializers.serialize("json", xMov) #.encode('zlib').encode('base64')
+
+    #print json.loads(data.decode('base64').decode('zlib'))
+    return HttpResponse(data, mimetype="application/json; charset=uft8")
