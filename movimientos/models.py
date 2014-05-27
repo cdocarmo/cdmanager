@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from clientes.models import Cliente
 from vendedores.models import Vendedor
 from articulos.models import Articulo
+from decimal import Decimal
 
 class Movimiento(models.Model):
 	fecha = models.DateTimeField(auto_now_add=True, verbose_name=u'fecha de creaci\xf3n')
@@ -23,9 +24,10 @@ class Movimiento(models.Model):
 		return _("%s") % ("")
 
 	def totalGral(self):
-		for xL in self.mis_lineas.all:
-			xT += xL.total - ((xL.total * xL.dto) / 100)
-		return xT
+		xT = Decimal(0)
+		for xL in self.mis_lineas.all():
+			xT += xL.totalValor() - ((xL.totalValor() * Decimal(xL.dto)) / Decimal(100))
+		return "%01.2f" % xT
 
 class Lineas(models.Model):
 	movto = models.ForeignKey(Movimiento, related_name="mis_lineas")
@@ -40,6 +42,10 @@ class Lineas(models.Model):
 	def total(self):
 		xTotal = self.cantidad * (self.precio - ((self.precio * self.dto) / 100))
 		return "%01.2f" % xTotal
+
+	def totalValor(self):
+		xTotal = self.cantidad * (self.precio - ((self.precio * self.dto) / 100))
+		return Decimal(xTotal)
 
 class Documentos(models.Model):
 	fecha = models.DateTimeField(auto_now_add=True, verbose_name=u'fecha de creaci\xf3n')

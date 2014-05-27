@@ -24,9 +24,106 @@ function inicio ()
 	});	
 
 	$("#ver-mapa").on("click", cargo_mapa);
+  $("#cargo_vv").on("click", cargo_ventasvende);
 
 }
 
+function cargo_ventasvende (argument) {
+  var xDesde = $('#fecha_ventas_desde').val();  
+  var xHasta = $('#fecha_ventas_hasta').val();
+  var xVendedor = $('#vendedor-venta').val();
+  var tabla = $('#tabla');
+
+
+
+
+  jQuery.ajax({
+    type: 'POST',
+    url: "cargo_ventasvendedor/",
+    data: { vendedor: xVendedor,
+    fecha: xDesde, hasta: xHasta},
+    dataType: 'json',
+
+    success:  function(data) {
+      var caja_cod = "";
+      caja_cod = caja_cod +'<table class="table table-striped">' +
+
+        '<thead>' +
+          '<tr>' +
+            '<th>Id.</th>' +
+            '<th>Fecha</th>' +
+            '<th>Cliente</th>' +
+            '<th>Tipo</th>' +
+            '<th>Total</th>' +
+          '</tr>' +
+        '</thead>' ;
+      $.each(data.xCol, function(index, elemento){
+            caja_cod = caja_cod + '<tbody id="listado-vendedor-movtos">' +
+                '<tr class="success">' +
+                
+                  '<td class="id"><a href=/movtos/ver_movto/' + elemento.id + '>'+ elemento.id +'<a></td>' +
+                  '<td class="nombres">'+ elemento.fecha +'</td>' +
+                  '<td class="nombres">'+ elemento.cliente +'</td>' +
+                  '<td class="nombres">'+ elemento.tipo +'</td>' +
+                  '<td align="right" class="nombres">'+ formatNumber(elemento.total) +'</td>' +
+                '</tr>' +
+            '</tbody>';
+            var total 
+            });
+            caja_cod = caja_cod + '</table>';
+
+            $("#movtos_vendedor").html(caja_cod);
+
+      },
+    error : function(xhr,errmsg,err) {
+      $('#datos-referencia li').remove()
+      console.log(xhr.status + ": " + xhr.responseText);
+    }
+  });
+  
+
+}
+
+function formatNumber(num,prefix){
+    prefix = prefix || "";
+    num += "";
+    var splitStr = num.split('.');
+    var splitLeft = splitStr[0];
+    var splitRight = splitStr.length > 1 ? '.' + splitStr[1] : "";
+    var regx = /(\d+)(\d{3})/;
+    while (regx.test(splitLeft)) {
+        splitLeft = splitLeft.replace(regx, '$1' + ',' + '$2');
+    }
+    return prefix + splitLeft + splitRight;
+}
+function unformatNumber(num) {
+    return num.replace(/([^0-9\.\-])/g,"")*1;
+}
+
+function formato_numero(numero, decimales, separador_decimal, separador_miles){ // v2007-08-06
+    numero=parseFloat(numero);
+    if(isNaN(numero)){
+        return "";
+    }
+
+    if(decimales!==undefined){
+        // Redondeamos
+        numero=numero.toFixed(decimales);
+    }
+
+    // Convertimos el punto en separador_decimal
+    numero=numero.toString().replace(".", separador_decimal!==undefined ? separador_decimal : ",");
+
+    if(separador_miles){
+        // Añadimos los separadores de miles
+        var miles=new RegExp("(-?[0-9]+)([0-9]{3})");
+        while(miles.test(numero)) {
+            numero=numero.replace(miles, "$1" + separador_miles + "$2");
+        }
+    }
+
+    return numero;
+}
 
 $('#vendedor-gps').change(function(event){
 	//console.debug($(this).val());
@@ -79,7 +176,8 @@ function cargo_mapa (argument) {
 	var xDia = $('#dia-gps').val();
 	var xHora = $('#select-hora').val();
 	var xVendedor = $('#vendedor-gps').val();
-	
+
+
 	jQuery.ajax({
 		type: 'POST',
 		url: "locacion-vendedor/",
@@ -111,8 +209,6 @@ function cargo_mapa (argument) {
 		  $('#datos-referencia li').remove()
 		  console.log(xhr.status + ": " + xhr.responseText);
 		}
-
-
 	});
 
 	 function callback(response)

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+
+{% block content %}
+	<section id="titulo-view-art">
+		<h2>Pedidos x Vendedor</h2>
+		<div class="container">
+			<form method='post' action=''>{% csrf_token %}
+	  			<span class="label label-default">Vendedor</span>
+	            {{ fromVV.vendedor }}
+
+	            <span class="label label-default">Desde</span>
+	            <input type="text" id="fecha_ventas_desde">
+	            <span class="label label-default">Hasta</span>
+	            <input type="text" id="fecha_ventas_hasta">	            
+				<button id="cargo_vv" type="button" class="btn btn-primary">Cargar</button>
+			 </form>
+		</div>
+
+
+	</section>
+	<section id="movtos_vendedor">
+
+	</section>
+
+{% endblock %}
+{% block js %}
+	
+	
+	<script type="text/javascript">
+	 $(function() {
+
+	 //Array para dar formato en español
+	      $.datepicker.regional['es'] =
+	      {
+	      closeText: 'Cerrar',
+	      prevText: 'Previo',
+	      nextText: 'Próximo',
+
+	      monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+	      'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+	      monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+	      'Jul','Ago','Sep','Oct','Nov','Dic'],
+	      monthStatus: 'Ver otro mes', yearStatus: 'Ver otro año',
+	      dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+	      dayNamesShort: ['Dom','Lun','Mar','Mie','Jue','Vie','Sáb'],
+	      dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
+	      dateFormat: 'dd/mm/yy', firstDay: 0,
+	      initStatus: 'Selecciona la fecha', isRTL: false};
+	     $.datepicker.setDefaults($.datepicker.regional['es']);
+
+	     //miDate: fecha de comienzo D=días | M=mes | Y=año
+	     //maxDate: fecha tope D=días | M=mes | Y=año
+	        $( "#datepicker" ).datepicker({ minDate: "-1D", maxDate: "+1M +10D" });
+	      });
+
+	      	$(function() {
+		        $( "#fecha_ventas_desde" ).datepicker({
+		            firstDay: 1
+		        });
+     		});
+			$(function() {
+				$( "#fecha_ventas_hasta" ).datepicker({
+				    firstDay: 1
+				});	        
+			});
+	
+	</script>
+
+	
+{% endblock %}	
