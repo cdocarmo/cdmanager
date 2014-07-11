@@ -8,7 +8,8 @@ from articulos.models import Articulo
 from decimal import Decimal
 
 class Movimiento(models.Model):
-	fecha = models.DateTimeField(auto_now_add=True, verbose_name=u'fecha de creaci\xf3n')
+	fecha = models.DateField(auto_now_add=True, verbose_name=u'fecha de creaci\xf3n')
+	fecha_hora = models.DateTimeField(auto_now_add=True)
 	cliente = models.ForeignKey(Cliente)
 	vendedor = models.ForeignKey(Vendedor)
 	tipo = models.CharField(max_length=3)

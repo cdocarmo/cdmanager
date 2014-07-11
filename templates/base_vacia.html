@@ -12,6 +12,7 @@
 	    <link rel="stylesheet" href="{{ STATIC_URL }}css/styles.css" type="text/css" media="screen">
 	    <link rel="stylesheet" href="{{ STATIC_URL }}css/normalize.min.css">
 		<link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-datetimepicker.min.css">
+
        	{% block css %}
 		{% endblock %}
         <title>{% block title %}{% endblock %}</title>
@@ -39,7 +40,7 @@
  		<script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-datepicker.js"></script>
  		<script type="text/javascript" src="{{ STATIC_URL }}js/utilita.js"></script> 		
 		<script src="{{ STATIC_URL }}js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-
+ 
 	    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&amp;language=es"></script>
 	    
 		{% block js %}

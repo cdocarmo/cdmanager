@@ -30,7 +30,26 @@
 					<li class="" id="Home"><a href="/">Home</a></li>
 					<li class="" id="Art"><a href="/articulos/">Articulos</a></li>
 					<li class="" id="Loca"><a href="/locacion/">GPS</a></li>
-					<li><a href="#">Link</a></li>    		
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Ventas <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Realizar Ventas</a></li>
+							
+							
+							<li class="divider"></li>
+							<li><a href="/movtos/pedidos_vendedor/">Ventas x Vendedor</a></li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Pedidos <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Realizar Pedido</a></li>
+							
+							
+							<li class="divider"></li>
+							<li><a href="/movtos/pedidos_vendedor/">Pedidos x Vendedor</a></li>
+						</ul>
+					</li>   		
 				</ul>
 				{% if user.is_authenticated %}
 					<ul class="nav navbar-nav navbar-right">
@@ -74,6 +93,9 @@
  		<script type="text/javascript" src="{{ STATIC_URL }}js/utilita.js"></script> 		
 		<script src="{{ STATIC_URL }}js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 		<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+
+
 	    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&amp;language=es"></script>
 		
 		{% block js %}

@@ -24,8 +24,12 @@ function inicio ()
 	});	
 
 	$("#ver-mapa").on("click", cargo_mapa);
-  $("#cargo_vv").on("click", cargo_ventasvende);
+    $("#cargo_vv").on("click", cargo_ventasvende);
 
+}
+
+function cargo_detalle_pedido (argument) {
+    console.log("W");
 }
 
 function cargo_ventasvende (argument) {
@@ -39,7 +43,7 @@ function cargo_ventasvende (argument) {
 
   jQuery.ajax({
     type: 'POST',
-    url: "cargo_ventasvendedor/",
+    url: "cargo_pedidovendedor/",
     data: { vendedor: xVendedor,
     fecha: xDesde, hasta: xHasta},
     dataType: 'json',
@@ -57,22 +61,23 @@ function cargo_ventasvende (argument) {
             '<th>Total</th>' +
           '</tr>' +
         '</thead>' ;
-      $.each(data.xCol, function(index, elemento){
-            caja_cod = caja_cod + '<tbody id="listado-vendedor-movtos">' +
-                '<tr class="success">' +
-                
-                  '<td class="id"><a href=/movtos/ver_movto/' + elemento.id + '>'+ elemento.id +'<a></td>' +
-                  '<td class="nombres">'+ elemento.fecha +'</td>' +
-                  '<td class="nombres">'+ elemento.cliente +'</td>' +
-                  '<td class="nombres">'+ elemento.tipo +'</td>' +
-                  '<td align="right" class="nombres">'+ formatNumber(elemento.total) +'</td>' +
-                '</tr>' +
-            '</tbody>';
-            var total 
+            $.each(data.xCol, function(index, elemento){
+                caja_cod = caja_cod + '<tbody id="listado-vendedor-movtos">' +
+                    '<tr class="success">' +
+                    
+                      '<td class="id_pedido"><a href="">'+ elemento.id +'<a></td>' +
+                      '<td class="nombres">'+ elemento.fecha +'</td>' +
+                      '<td class="nombres">'+ elemento.cliente +'</td>' +
+                      '<td class="nombres">'+ elemento.tipo +'</td>' +
+                      '<td align="right" class="nombres">'+ formatNumber(elemento.total) +'</td>' +
+                    '</tr>' +
+                '</tbody>';
+                var total 
             });
             caja_cod = caja_cod + '</table>';
 
             $("#movtos_vendedor").html(caja_cod);
+
 
       },
     error : function(xhr,errmsg,err) {
@@ -80,7 +85,7 @@ function cargo_ventasvende (argument) {
       console.log(xhr.status + ": " + xhr.responseText);
     }
   });
-  
+  //
 
 }
 

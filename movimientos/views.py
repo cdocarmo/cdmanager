@@ -15,7 +15,7 @@ from movimientos.models import Movimiento, Lineas, Documentos
 from vendedores.models import Vendedor
 from articulos.models import Articulo
 from decimal import Decimal
-from datetime import datetime
+
 from django.contrib.auth.decorators import login_required
 from movimientos.forms import *
 from datetime import date, timedelta
@@ -49,26 +49,19 @@ def ventas_vendedor(request):
 
 
 
-def cargo_ventasvendedor(request):
+def cargo_pedidovendedor(request):
     xCol = []
     if request.POST:
         xVend = request.POST['vendedor'] 
         xDia = request.POST['fecha']
         xHasta = request.POST['hasta']
-        xProxDia = datetime.datetime(int(xDia[6:10]), int(xDia[3:5]), int(xDia[0:2]))
+        aware_start_time = datetime.datetime(int(xDia[6:10]), int(xDia[3:5]), int(xDia[0:2]))
+        aware_end_time = datetime.datetime(int(xHasta[6:10]), int(xHasta[3:5]), int(xHasta[0:2]))
 
-        xIni = str(xDia[6:10]) + "-" + str(xDia[3:5]) + "-" + str(xDia[0:2]) + " 00:00:00"
-        xFin = str(xHasta[6:10]) + "-" + str(xHasta[3:5]) + "-" + str(xHasta[0:2]) + " 23:59:00"
-
-        #la = pytz.timezone('America/Montevideo')
-        n1 = parse_datetime(xIni) # naive object
-        n2 = parse_datetime(xFin)
-        aware_start_time = str(n1)+"-03:00" #la.localize(n1) # aware object
-        aware_end_time = str(n2)+"-03:00" #la.localize(n2)
 
 
         xVentas =  Movimiento.objects.filter(vendedor=int(xVend), 
-            fecha__range=(aware_start_time, aware_end_time)).order_by('fecha')
+            fecha__range=(aware_start_time, aware_end_time)).exclude(tipo='PED').order_by('fecha')
 
         xTotal = Decimal(0)
         for xM in xVentas:
@@ -107,11 +100,10 @@ def cargo_movtos1(request):
 @csrf_exempt
 def guardo_pedido(request):
     #return HttpResponse("Hola" + str(request.POST))
-    xFecha = datetime.now()
+    xFecha = datetime.datetime.now()
     data = str(request.POST['json'])
     xMovto = json.loads(data)
     xLineas = xMovto['lineas']
-
 
     xM = Movimiento.objects.filter(
         vendedor=Vendedor.objects.get(codigo=xMovto['vendedor']), 
@@ -164,3 +156,12 @@ def cargo_estcta(request):
 
     #print json.loads(data.decode('base64').decode('zlib'))
     return HttpResponse(data, mimetype="application/json; charset=uft8")
+
+
+def ver_pedido(request, xPedido):
+
+    xLineas = Lineas.objects.filter(movto=xPedido)
+
+    return render_to_response('movtos/ver_lineas.html',
+                            {'xLineas':xLineas, 'xNro':xPedido}, 
+                            context_instance=RequestContext(request))
